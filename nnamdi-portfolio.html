@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nnamdi — Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --bg2: #131313;
+    --bg3: #1a1a1a;
+    --border: #222;
+    --border2: #2e2e2e;
+    --white: #f0f0f0;
+    --gray: #666;
+    --gray2: #444;
+    --accent: #4fffb0;
+    --accent2: #00e5ff;
+    --font: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--accent); border-radius: 50%;
+    position: fixed; pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--accent); border-radius: 50%;
+    position: fixed; pointer-events: none;
+    z-index: 9998; transform: translate(-50%,-50%);
+    opacity: 0.4;
+    transition: width 0.3s, height 0.3s, opacity 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono); font-size: 0.95rem; font-weight: 700;
+    color: var(--accent); letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--gray); font-weight: 400; }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
+    text-decoration: none; color: var(--gray);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent) !important; color: #000 !important;
+    padding: 9px 20px; border-radius: 4px; font-weight: 700 !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.8 !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 140px 60px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.35; pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .availability-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(79,255,176,0.07); color: var(--accent);
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 7px 14px; border-radius: 3px; margin-bottom: 40px;
+    border: 1px solid rgba(79,255,176,0.2); width: fit-content;
+  }
+  .availability-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.4; transform:scale(1.5); }
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 7.5vw, 7rem); font-weight: 700;
+    line-height: 1.02; letter-spacing: -0.03em;
+    max-width: 900px; margin-bottom: 28px;
+  }
+  .hero h1 .highlight { color: var(--accent); }
+  .hero h1 .dim { color: var(--gray2); }
+  .hero-sub {
+    font-size: 1rem; color: var(--gray);
+    max-width: 480px; line-height: 1.7; margin-bottom: 44px;
+  }
+  .hero-btns { display: flex; gap: 14px; align-items: center; }
+  .btn-primary {
+    background: var(--accent); color: #000;
+    padding: 13px 28px; border-radius: 4px;
+    font-family: var(--mono); font-size: 0.83rem; font-weight: 700;
+    text-decoration: none; transition: opacity 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .btn-primary:hover { opacity: 0.8; }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 13px 28px; border-radius: 4px;
+    font-family: var(--mono); font-size: 0.83rem; font-weight: 600;
+    text-decoration: none; border: 1px solid var(--border2);
+    transition: border-color 0.2s, color 0.2s; letter-spacing: 0.04em;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-cards {
+    display: flex; gap: 14px; margin-top: 72px;
+    overflow-x: auto; padding-bottom: 4px;
+  }
+  .hero-cards::-webkit-scrollbar { display: none; }
+  .code-card {
+    flex-shrink: 0; width: 228px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 18px 20px;
+    font-family: var(--mono); font-size: 0.67rem; line-height: 1.8; color: var(--gray);
+  }
+  .c-kw { color: #c792ea; }
+  .c-fn { color: #82aaff; }
+  .c-str { color: var(--accent); }
+  .c-cm { color: #3a5260; }
+  .c-tag { color: var(--accent2); }
+
+  /* MARQUEE */
+  .marquee-section {
+    overflow: hidden; border-bottom: 1px solid var(--border);
+    padding: 14px 0; background: var(--bg2);
+  }
+  .marquee-track {
+    display: flex; gap: 48px;
+    animation: marquee 24s linear infinite; width: max-content;
+  }
+  @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  .marquee-item {
+    display: flex; align-items: center; gap: 16px; white-space: nowrap;
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray2);
+  }
+  .marquee-item .dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; }
+
+  /* SECTIONS */
+  section { padding: 100px 60px; border-bottom: 1px solid var(--border); }
+  .section-label {
+    font-family: var(--mono); font-size: 0.67rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content: '//'; color: var(--gray2); font-weight: 400; }
+  .section-title {
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    font-weight: 700; line-height: 1.08;
+    letter-spacing: -0.03em; margin-bottom: 20px;
+  }
+  .section-title em { color: var(--accent); font-style: normal; }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center; margin-top: 56px;
+  }
+  .about-text p { font-size: 0.96rem; line-height: 1.8; color: var(--gray); margin-bottom: 20px; }
+  .stat-banner {
+    display: flex; gap: 48px; margin-top: 44px;
+    padding-top: 36px; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: var(--mono); font-size: 2.4rem; font-weight: 700;
+    color: var(--accent); line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.68rem; color: var(--gray);
+    font-weight: 500; margin-top: 6px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .profile-img {
+    width: 100%; aspect-ratio: 4/5; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .profile-placeholder {
+    font-family: var(--mono); font-size: 6rem;
+    font-weight: 700; color: var(--border2);
+  }
+
+
+  /* WORK */
+  .work-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 16px; margin-top: 56px;
+  }
+  .work-card {
+    border: 1px solid var(--border); border-radius: 6px;
+    overflow: hidden; background: var(--bg2);
+    position: relative; transition: border-color 0.25s, transform 0.25s;
+    cursor: none;
+  }
+  .work-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .work-card.large { grid-column: span 2; }
+  .work-visual {
+    height: 320px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .work-card.large .work-visual { height: 380px; }
+  .work-label-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 5rem; font-weight: 700;
+    color: rgba(255,255,255,0.025); letter-spacing: -0.04em;
+    user-select: none; text-transform: uppercase;
+  }
+  .browser-mock {
+    width: 86%; background: var(--bg3);
+    border: 1px solid var(--border2); border-radius: 8px;
+    overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  }
+  .browser-bar {
+    height: 32px; background: var(--bg2);
+    display: flex; align-items: center; gap: 6px; padding: 0 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .b-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .browser-url {
+    flex: 1; height: 18px; background: var(--bg3);
+    border: 1px solid var(--border); border-radius: 3px;
+    margin: 0 10px; display: flex; align-items: center;
+    padding: 0 10px; font-family: var(--mono); font-size: 0.57rem; color: var(--gray2);
+  }
+  .browser-body { padding: 14px; }
+  .browser-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .browser-block {
+    height: 48px; flex: 1; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 0.57rem; color: var(--gray2);
+    font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .work-info { padding: 24px 28px; border-top: 1px solid var(--border); }
+  .work-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+  .work-type { font-family: var(--mono); font-size: 0.72rem; color: var(--gray); }
+  .work-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
+    color: var(--accent); text-decoration: none;
+    margin-top: 10px; opacity: 0.7; transition: opacity 0.2s;
+  }
+  .work-link:hover { opacity: 1; }
+  .work-tag {
+    position: absolute; top: 14px; right: 14px;
+    background: rgba(13,13,13,0.88); border: 1px solid var(--border2);
+    border-radius: 3px; padding: 5px 10px;
+    font-family: var(--mono); font-size: 0.6rem;
+    color: var(--accent); font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  /* TOOLS */
+  .tools-section { background: var(--bg2); }
+  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+  .tool-card {
+    border: 1px solid var(--border); border-radius: 6px; padding: 36px 28px;
+    background: var(--bg3); transition: border-color 0.25s, background 0.25s;
+  }
+  .tool-card:hover { border-color: var(--accent); background: #161616; }
+  .tool-icon {
+    width: 52px; height: 52px; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 8px;
+    margin-bottom: 24px; display: flex; align-items: center; justify-content: center;
+  }
+  .tool-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+  .tool-desc { font-size: 0.83rem; color: var(--gray); line-height: 1.65; }
+
+  /* PROCESS */
+  .process-list { margin-top: 56px; }
+  .process-step {
+    display: grid; grid-template-columns: 90px 1fr;
+    gap: 32px; align-items: start;
+    padding: 36px 0; border-bottom: 1px solid var(--border);
+  }
+  .process-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: var(--mono); font-size: 1.8rem; font-weight: 700;
+    color: var(--accent); opacity: 0.65; line-height: 1; padding-top: 4px;
+  }
+  .step-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 10px; }
+  .step-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.7; max-width: 540px; }
+
+  /* TESTIMONIAL */
+  .testimonial-section { background: var(--bg2); }
+  .testi-single {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 6px; padding: 56px 60px; margin-top: 56px;
+    position: relative; overflow: hidden;
+  }
+  .testi-accent-line {
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; background: var(--accent);
+  }
+  .testi-text {
+    font-size: clamp(1rem, 2.2vw, 1.3rem);
+    line-height: 1.75; color: var(--white); font-weight: 400; max-width: 800px;
+  }
+  .testi-text strong { color: var(--accent); font-weight: 600; }
+  .testi-author {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border);
+  }
+  .author-avatar {
+    width: 48px; height: 48px; border-radius: 4px;
+    background: var(--bg2); border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-weight: 700; font-size: 0.85rem; color: var(--accent);
+  }
+  .author-name { font-weight: 700; font-size: 0.95rem; }
+  .author-role { font-family: var(--mono); font-size: 0.75rem; color: var(--gray); margin-top: 3px; }
+
+  /* FOOTER CTA */
+  .footer-cta {
+    background: var(--bg2); border-top: 1px solid var(--border);
+    padding: 100px 60px; text-align: center; position: relative; overflow: hidden;
+  }
+  .footer-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 600px 280px at 50% 100%, rgba(79,255,176,0.05), transparent);
+    pointer-events: none;
+  }
+  .footer-cta .section-label { justify-content: center; margin-bottom: 24px; }
+  .footer-cta .section-label::before { display: none; }
+  .footer-cta .section-title { font-size: clamp(2.4rem, 5.5vw, 5rem); position: relative; }
+  .footer-cta p { color: var(--gray); font-size: 0.96rem; line-height: 1.7; max-width: 440px; margin: 20px auto 44px; position: relative; }
+  .footer-email {
+    display: block; font-family: var(--mono);
+    font-size: 0.92rem; color: var(--gray); text-decoration: none;
+    margin-top: 44px; transition: color 0.2s; position: relative;
+  }
+  .footer-email:hover { color: var(--accent); }
+  .social-links { display: flex; gap: 12px; justify-content: center; margin-top: 24px; position: relative; }
+  .social-link {
+    width: 44px; height: 44px; border: 1px solid var(--border2); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gray); text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 900px) {
+    nav { padding: 18px 20px; }
+    .nav-links { display: none; }
+    section { padding: 70px 20px; }
+    .hero { padding: 120px 20px 60px; }
+    .about-grid, .tools-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-card.large { grid-column: span 1; }
+    .footer-cta { padding: 70px 20px; }
+    .testi-single { padding: 40px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">nnamdi<span>.dev</span></div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="availability-badge">Available For Work</div>
+    <h1>I'm Nnamdi,<br>a <span class="highlight">Web Developer</span><br><span class="dim">based in Nigeria.</span></h1>
+    <p class="hero-sub">I build fast, scalable, and pixel-perfect web experiences — where clean code meets thoughtful design, and every line has intent.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Contact Me</a>
+      <a href="#work" class="btn-secondary">View Works →</a>
+    </div>
+    <div class="hero-cards">
+      <div class="code-card">
+        <div><span class="c-cm">// african-creators</span></div>
+        <div><span class="c-kw">const</span> <span class="c-fn">init</span> = () =&gt; {</div>
+        <div>&nbsp;&nbsp;<span class="c-fn">render</span>(<span class="c-str">'#app'</span>)</div>
+        <div>}</div>
+      </div>
+      <div class="code-card">
+        <div><span class="c-cm">// flex-foundry-gym</span></div>
+        <div><span class="c-kw">import</span> { <span class="c-fn">useEffect</span> }</div>
+        <div><span class="c-kw">from</span> <span class="c-str">'react'</span></div>
+        <div><span class="c-fn">gymApp</span>.<span class="c-fn">mount</span>()</div>
+      </div>
+      <div class="code-card">
+        <div><span class="c-cm">// recipe-app</span></div>
+        <div><span class="c-kw">async function</span> <span class="c-fn">getMeals</span>()</div>
+        <div>&nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-fn">await</span></div>
+        <div>&nbsp;&nbsp;<span class="c-fn">api</span>.<span class="c-fn">get</span>(<span class="c-str">'/meals'</span>)</div>
+      </div>
+      <div class="code-card">
+        <div><span class="c-cm">// clean arch.</span></div>
+        <div><span class="c-tag">components</span>/</div>
+        <div><span class="c-tag">hooks</span>/</div>
+        <div><span class="c-tag">utils</span>/</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Web Development <span class="dot"></span></div>
+    <div class="marquee-item">React <span class="dot"></span></div>
+    <div class="marquee-item">JavaScript <span class="dot"></span></div>
+    <div class="marquee-item">4 Years Experience <span class="dot"></span></div>
+    <div class="marquee-item">Clean Code <span class="dot"></span></div>
+    <div class="marquee-item">Responsive Design <span class="dot"></span></div>
+    <div class="marquee-item">3 Projects Shipped <span class="dot"></span></div>
+    <div class="marquee-item">Frontend Engineer <span class="dot"></span></div>
+    <div class="marquee-item">Web Development <span class="dot"></span></div>
+    <div class="marquee-item">React <span class="dot"></span></div>
+    <div class="marquee-item">JavaScript <span class="dot"></span></div>
+    <div class="marquee-item">4 Years Experience <span class="dot"></span></div>
+    <div class="marquee-item">Clean Code <span class="dot"></span></div>
+    <div class="marquee-item">Responsive Design <span class="dot"></span></div>
+    <div class="marquee-item">3 Projects Shipped <span class="dot"></span></div>
+    <div class="marquee-item">Frontend Engineer <span class="dot"></span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" style="scroll-margin-top:80px">
+  <div class="section-label">The Developer Behind It</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2 class="section-title">Code is <em>craft</em><br>with purpose.</h2>
+      <p>I'm Nnamdi — a web developer with 4 years of experience turning ideas into high-performance, scalable web products. I care deeply about clean architecture, readable code, and interfaces that feel inevitable.</p>
+      <p>Every project I build is approached with precision and intentionality. Good development isn't just code that works — it's code that lasts, scales, and makes the next engineer's life easier.</p>
+      <div class="stat-banner">
+        <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Years Experience</div></div>
+        <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Projects Shipped</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="profile-img">
+        <div class="profile-placeholder">N</div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work" style="scroll-margin-top:80px">
+  <div class="section-label">Selected Work</div>
+  <h2 class="section-title">Projects that <em>speak</em><br>for themselves.</h2>
+  <div class="work-grid">
+
+    <div class="work-card large">
+      <div class="work-visual" style="background:linear-gradient(135deg,#0a0800,#1e1200)">
+        <div class="work-label-bg">African Creators</div>
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="b-dot" style="background:#ff6058"></div>
+            <div class="b-dot" style="background:#ffbe2e"></div>
+            <div class="b-dot" style="background:#28c941"></div>
+            <div class="browser-url">african-creators.vercel.app</div>
+          </div>
+          <div class="browser-body">
+            <div class="browser-row">
+              <div class="browser-block" style="background:#1a1200;color:#7a5010;flex:3">Creator Hub</div>
+              <div class="browser-block" style="background:#b35a00;color:#fff;flex:1">Join</div>
+            </div>
+            <div class="browser-row">
+              <div class="browser-block" style="background:#1a1200;color:#5a3a10">Discover</div>
+              <div class="browser-block" style="background:#1a1200;color:#5a3a10">Create</div>
+              <div class="browser-block" style="background:#1a1200;color:#5a3a10">Connect</div>
+            </div>
+          </div>
+        </div>
+        <div class="work-tag">Creator Platform</div>
+      </div>
+      <div class="work-info">
+        <div class="work-name">African Creators</div>
+        <div class="work-type">Full Frontend Build</div>
+        <a href="https://github.com/itssbman/African-Creators" target="_blank" class="work-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-visual" style="background:linear-gradient(135deg,#031508,#05200e)">
+        <div class="work-label-bg">Recipe</div>
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="b-dot" style="background:#ff6058"></div>
+            <div class="b-dot" style="background:#ffbe2e"></div>
+            <div class="b-dot" style="background:#28c941"></div>
+            <div class="browser-url">recipe-app.vercel.app</div>
+          </div>
+          <div class="browser-body">
+            <div class="browser-row">
+              <div class="browser-block" style="background:#05200e;color:#1a6b35;flex:3">Browse Meals</div>
+              <div class="browser-block" style="background:#1a6b35;color:#fff;flex:1">Search</div>
+            </div>
+            <div class="browser-row">
+              <div class="browser-block" style="background:#031508;color:#1a4a28">Breakfast</div>
+              <div class="browser-block" style="background:#031508;color:#1a4a28">Dinner</div>
+            </div>
+          </div>
+        </div>
+        <div class="work-tag">Web App</div>
+      </div>
+      <div class="work-info">
+        <div class="work-name">Recipe</div>
+        <div class="work-type">Recipe Web Application</div>
+        <a href="https://github.com/itssbman/reciepe" target="_blank" class="work-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-visual" style="background:linear-gradient(135deg,#0d0000,#1a0404)">
+        <div class="work-label-bg">Flex Foundry</div>
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="b-dot" style="background:#ff6058"></div>
+            <div class="b-dot" style="background:#ffbe2e"></div>
+            <div class="b-dot" style="background:#28c941"></div>
+            <div class="browser-url">flex-foundry-gym.vercel.app</div>
+          </div>
+          <div class="browser-body">
+            <div class="browser-row">
+              <div class="browser-block" style="background:#1a0404;color:#5a2020;flex:3">Train Hard</div>
+              <div class="browser-block" style="background:#cc2200;color:#fff;flex:1">Join</div>
+            </div>
+            <div class="browser-row">
+              <div class="browser-block" style="background:#1a0404;color:#3a1818">Classes</div>
+              <div class="browser-block" style="background:#1a0404;color:#3a1818">Schedule</div>
+            </div>
+          </div>
+        </div>
+        <div class="work-tag">Gym Website</div>
+      </div>
+      <div class="work-info">
+        <div class="work-name">Flex Foundry Gym</div>
+        <div class="work-type">Frontend Development</div>
+        <a href="https://github.com/itssbman/flex-foundry-gym" target="_blank" class="work-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tools-section">
+  <div class="section-label">Tools & Kit</div>
+  <h2 class="section-title">My craft,<br>my <em>toolkit.</em></h2>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-icon">
+        <svg width="26" height="26" viewBox="0 0 38 57" fill="none">
+          <path d="M19 28.5C19 26 20 23.6 21.8 21.8C23.6 20 26 19 28.5 19C31 19 33.4 20 35.2 21.8C37 23.6 38 26 38 28.5C38 31 37 33.4 35.2 35.2C33.4 37 31 38 28.5 38C26 38 23.6 37 21.8 35.2C20 33.4 19 31 19 28.5Z" fill="#1ABCFE"/>
+          <path d="M0 47.5C0 45 1 42.6 2.8 40.8C4.6 39 7 38 9.5 38H19V47.5C19 50 18 52.4 16.2 54.2C14.4 56 12 57 9.5 57C7 57 4.6 56 2.8 54.2C1 52.4 0 50 0 47.5Z" fill="#0ACF83"/>
+          <path d="M19 0V19H28.5C31 19 33.4 18 35.2 16.2C37 14.4 38 12 38 9.5C38 7 37 4.6 35.2 2.8C33.4 1 31 0 28.5 0H19Z" fill="#FF7262"/>
+          <path d="M0 9.5C0 12 1 14.4 2.8 16.2C4.6 18 7 19 9.5 19H19V0H9.5C7 0 4.6 1 2.8 2.8C1 4.6 0 7 0 9.5Z" fill="#F24E1E"/>
+          <path d="M0 28.5C0 31 1 33.4 2.8 35.2C4.6 37 7 38 9.5 38H19V19H9.5C7 19 4.6 20 2.8 21.8C1 23.6 0 26 0 28.5Z" fill="#A259FF"/>
+        </svg>
+      </div>
+      <div class="tool-name">Figma</div>
+      <div class="tool-desc">Translating design files into precise, pixel-perfect code. Reading components, auto-layout, and design tokens with fluency.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">
+        <!-- HTML/CSS/JS code brackets icon -->
+        <svg width="30" height="22" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 1L1 11L9 21" stroke="#4fffb0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 1L29 11L21 21" stroke="#4fffb0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 3L13 19" stroke="#4fffb0" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tool-name">Frontend Dev</div>
+      <div class="tool-desc">Building responsive, performant interfaces with HTML, CSS, JavaScript, and React. Clean architecture from the ground up.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">
+        <svg width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <mask id="vm">
+            <path fill="white" d="M70.9 4.4L37.3 35.2 15.6 19.1 5 24.5v51l10.6 5.4 21.8-16.1 33.5 30.8 14.3-5.8V10.2L70.9 4.4zm9 66.4l-22-20.8 22-20.8v41.6z"/>
+          </mask>
+          <path fill="#007ACC" d="M95.2 10.2L70.9 4.4 37.3 35.2 15.6 19.1 5 24.5v51l10.6 5.4 21.8-16.1 33.5 30.8 14.3-5.8V10.2h10z" mask="url(#vm)"/>
+          <path fill="#007ACC" d="M70.9 4.4L37.3 35.2 15.6 19.1 5 24.5v51l10.6 5.4 21.8-16.1 33.5 30.8 14.3-5.8V10.2L70.9 4.4zm9 66.4l-22-20.8 22-20.8v41.6z"/>
+          <path fill="#1F9CF0" d="M79.9 70.8l-22-20.8 22-20.8v41.6z"/>
+          <path fill="white" fill-opacity="0.2" d="M70.9 4.4L37.3 35.2 15.6 19.1 5 24.5l10.6-5.4L37.3 35.2l33.6-30.8h-10L37.3 35.2 15.6 19.1 5 24.5v51l10.6 5.4 21.8-16.1 33.5 30.8 14.3-5.8V10.2L70.9 4.4z"/>
+        </svg>
+      </div>
+      <div class="tool-name">VS Code</div>
+      <div class="tool-desc">My primary environment — configured for speed with extensions, snippets, and workflows built for shipping quality code fast.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="scroll-margin-top:80px">
+  <div class="section-label">How We'll Work Together</div>
+  <h2 class="section-title">From <em>brief</em> to<br>deployed.</h2>
+  <div class="process-list">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Discovery Call</div>
+        <div class="step-desc">We start with a conversation — understanding the product vision, technical requirements, and what success looks like for your project.</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Understanding the Product</div>
+        <div class="step-desc">I dive deep into your designs, user flows, and business logic — asking the right questions before a single line of code is written.</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Building the Interface</div>
+        <div class="step-desc">Translating designs into production-grade code with clean component architecture, responsive layout, and optimized performance from day one.</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Review & Refinement</div>
+        <div class="step-desc">Iterating based on your feedback — fine-tuning interactions, edge cases, and performance until everything meets the standard.</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <div class="step-title">Handoff & Deployment</div>
+        <div class="step-desc">Delivering clean, documented code ready for production — with proper handoff, version control, and post-launch support as needed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial-section">
+  <div class="section-label">What People Are Saying</div>
+  <h2 class="section-title">Straight from<br>the <em>source.</em></h2>
+  <div class="testi-single">
+    <div class="testi-accent-line"></div>
+    <div class="testi-text">
+      "Nnamdi didn't just build our site; he engineered a <strong>scalable foundation</strong> for our entire product. His ability to translate complex designs into <strong>pixel-perfect, high-performance code</strong> while maintaining a clean architecture was evident from the first pull request."
+    </div>
+    <div class="testi-author">
+      <div class="author-avatar">OZ</div>
+      <div>
+        <div class="author-name">Obealor Zukoife</div>
+        <div class="author-role">CEO, Hybrrid</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<div id="contact" class="footer-cta" style="scroll-margin-top:80px">
+  <div class="section-label">Let's Work Together</div>
+  <h2 class="section-title">Ready to build<br>something <em>great?</em></h2>
+  <p>Open to freelance, contract, or full-time opportunities. Let's ship something exceptional together.</p>
+  <a href="/cdn-cgi/l/email-protection#fb8c948990d58c928f939989929a95c9cebb9c969a9297d5989496" class="btn-primary" style="font-size:0.88rem;padding:14px 36px;">Get In Touch →</a>
+  <a href="/cdn-cgi/l/email-protection#21564e534a0f56485549435348404f131461464c40484d0f424e4c" class="footer-email"><span class="__cf_email__" data-cfemail="7e09110c155009170a161c0c171f104c4b3e19131f1712501d1113">[email&#160;protected]</span></a>
+  <div class="social-links">
+    <a href="https://github.com/itssbman" target="_blank" class="social-link" title="GitHub">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+    </a>
+    <a href="https://x.com/_NnamdiEze" target="_blank" class="social-link" title="X / Twitter">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/nnamdis.space/" target="_blank" class="social-link" title="Instagram">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  function loop() {
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll('a,button,.work-card,.tool-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform='translate(-50%,-50%) scale(3)';
+      ring.style.
