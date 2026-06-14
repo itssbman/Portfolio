@@ -290,7 +290,26 @@
     font-family: var(--mono); font-size: 0.6rem;
     color: var(--accent); font-weight: 600;
     letter-spacing: 0.08em; text-transform: uppercase;
+    z-index: 3;
   }
+  .work-shot {
+    position: absolute; inset: 0; z-index: 2;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    background: var(--bg2);
+  }
+  .work-desc {
+    font-size: 0.85rem; color: var(--gray);
+    line-height: 1.65; margin-top: 12px; max-width: 580px;
+  }
+  .work-tech { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+  .tech-tag {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+    color: var(--gray); background: var(--bg3);
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: 4px 9px; letter-spacing: 0.04em;
+  }
+  .work-links { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 
   /* TOOLS */
   .tools-section { background: var(--bg2); }
@@ -458,7 +477,7 @@
     <div class="marquee-item">4 Years Experience <span class="dot"></span></div>
     <div class="marquee-item">Clean Code <span class="dot"></span></div>
     <div class="marquee-item">Responsive Design <span class="dot"></span></div>
-    <div class="marquee-item">3 Projects Shipped <span class="dot"></span></div>
+    <div class="marquee-item">4 Projects Shipped <span class="dot"></span></div>
     <div class="marquee-item">Frontend Engineer <span class="dot"></span></div>
     <div class="marquee-item">Web Development <span class="dot"></span></div>
     <div class="marquee-item">React <span class="dot"></span></div>
@@ -466,7 +485,7 @@
     <div class="marquee-item">4 Years Experience <span class="dot"></span></div>
     <div class="marquee-item">Clean Code <span class="dot"></span></div>
     <div class="marquee-item">Responsive Design <span class="dot"></span></div>
-    <div class="marquee-item">3 Projects Shipped <span class="dot"></span></div>
+    <div class="marquee-item">4 Projects Shipped <span class="dot"></span></div>
     <div class="marquee-item">Frontend Engineer <span class="dot"></span></div>
   </div>
 </div>
@@ -481,7 +500,7 @@
       <p>Every project I build is approached with precision and intentionality. Good development isn't just code that works — it's code that lasts, scales, and makes the next engineer's life easier.</p>
       <div class="stat-banner">
         <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Years Experience</div></div>
-        <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Projects Shipped</div></div>
+        <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Projects Shipped</div></div>
         <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
       </div>
     </div>
@@ -501,7 +520,62 @@
   <div class="work-grid">
 
     <div class="work-card large">
+      <div class="work-visual" style="background:linear-gradient(135deg,#04121a,#0a1f2e)">
+        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/820/noanimate/https://sted-react.vercel.app" alt="STED — AI Study Companion screenshot" loading="lazy" onerror="this.style.display='none'">
+        <div class="work-label-bg">STED</div>
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="b-dot" style="background:#ff6058"></div>
+            <div class="b-dot" style="background:#ffbe2e"></div>
+            <div class="b-dot" style="background:#28c941"></div>
+            <div class="browser-url">sted-react.vercel.app</div>
+          </div>
+          <div class="browser-body">
+            <div class="browser-row">
+              <div class="browser-block" style="background:#0a1f2e;color:#2a7a9a;flex:3">AI Study Chat</div>
+              <div class="browser-block" style="background:#0a6a8a;color:#fff;flex:1">Ask</div>
+            </div>
+            <div class="browser-row">
+              <div class="browser-block" style="background:#04121a;color:#1a5a72">Planner</div>
+              <div class="browser-block" style="background:#04121a;color:#1a5a72">Flashcards</div>
+              <div class="browser-block" style="background:#04121a;color:#1a5a72">Wallet</div>
+            </div>
+          </div>
+        </div>
+        <div class="work-tag">AI · EdTech</div>
+      </div>
+      <div class="work-info">
+        <div class="work-name">STED — AI Study Companion</div>
+        <div class="work-type">Full-Stack EdTech Platform · Sole Developer</div>
+        <p class="work-desc">A full-stack platform for university students that combines AI-powered study assistance, academic planning, and personal finance tracking — built end to end from concept to deployment. Features AI chat with flashcard &amp; quiz generation, PDF upload and analysis, a task planner with streak tracking, an allowance &amp; expense tracker, dark/light mode, push notifications, and a rate-limited serverless API.</p>
+        <!-- Metrics placeholder — fill in when available, e.g.:
+        <div class="stat-banner" style="margin-top:24px;padding-top:0;border-top:none;">
+          <div class="stat"><div class="stat-num">1.2k</div><div class="stat-label">Users</div></div>
+          <div class="stat"><div class="stat-num">50k</div><div class="stat-label">Messages Sent</div></div>
+          <div class="stat"><div class="stat-num">8k</div><div class="stat-label">Tasks Completed</div></div>
+        </div> -->
+        <div class="work-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">Firebase</span>
+          <span class="tech-tag">Firestore</span>
+          <span class="tech-tag">Groq AI · Llama 3.3 70B</span>
+          <span class="tech-tag">Vercel</span>
+          <span class="tech-tag">Paystack</span>
+          <span class="tech-tag">FCM Push</span>
+          <span class="tech-tag">PWA</span>
+        </div>
+        <div class="work-links">
+          <a href="https://sted-react.vercel.app" target="_blank" class="work-link">Live App ↗</a>
+          <a href="https://sted-landing.vercel.app" target="_blank" class="work-link">Landing Page ↗</a>
+          <a href="https://github.com/itssbman/sted-react" target="_blank" class="work-link">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card large">
       <div class="work-visual" style="background:linear-gradient(135deg,#0a0800,#1e1200)">
+        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/740/noanimate/https://african-creators.vercel.app" alt="African Creators screenshot" loading="lazy" onerror="this.style.display='none'">
         <div class="work-label-bg">African Creators</div>
         <div class="browser-mock">
           <div class="browser-bar">
@@ -533,6 +607,7 @@
 
     <div class="work-card">
       <div class="work-visual" style="background:linear-gradient(135deg,#031508,#05200e)">
+        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/900/noanimate/https://recipe-app.vercel.app" alt="Recipe app screenshot" loading="lazy" onerror="this.style.display='none'">
         <div class="work-label-bg">Recipe</div>
         <div class="browser-mock">
           <div class="browser-bar">
@@ -563,6 +638,7 @@
 
     <div class="work-card">
       <div class="work-visual" style="background:linear-gradient(135deg,#0d0000,#1a0404)">
+        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/900/noanimate/https://flex-foundry-gym.vercel.app" alt="Flex Foundry Gym screenshot" loading="lazy" onerror="this.style.display='none'">
         <div class="work-label-bg">Flex Foundry</div>
         <div class="browser-mock">
           <div class="browser-bar">
@@ -739,4 +815,13 @@
   document.querySelectorAll('a,button,.work-card,.tool-card').forEach(el => {
     el.addEventListener('mouseenter', () => {
       cursor.style.transform='translate(-50%,-50%) scale(3)';
-      ring.style.
+      ring.style.width='52px'; ring.style.height='52px'; ring.style.opacity='0.6';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform='translate(-50%,-50%) scale(1)';
+      ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='0.4';
+    });
+  });
+</script>
+</body>
+</html>
