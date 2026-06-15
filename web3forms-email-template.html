@@ -1,0 +1,78 @@
+<!--
+  ============================================================
+  WEB3FORMS CUSTOM EMAIL TEMPLATE  (nnamdi.dev portfolio)
+  ============================================================
+  This is the email YOU receive when someone submits the form.
+  Custom templates are a Web3Forms PRO feature.
+
+  HOW TO USE:
+  1. Go to https://web3forms.com  ->  Dashboard  ->  your Access Key
+  2. Open "Email Template" (Pro)  ->  choose "Custom HTML"
+  3. Paste EVERYTHING below the line marked  >>> PASTE FROM HERE <<<
+  4. Save. Submit a test from your site to confirm it renders.
+
+  Template variables Web3Forms fills in automatically:
+    {{name}}     -> sender's name
+    {{email}}    -> sender's email
+    {{message}}  -> the message body
+  ============================================================
+-->
+
+<!-- >>> PASTE FROM HERE <<< -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;padding:0;background-color:#0d0d0d;font-family:Arial,Helvetica,sans-serif;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background-color:#131313;border:1px solid #2e2e2e;border-radius:8px;overflow:hidden;">
+
+        <!-- Accent bar -->
+        <tr><td style="height:4px;background-color:#4fffb0;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+        <!-- Header -->
+        <tr>
+          <td style="padding:28px 36px 20px 36px;border-bottom:1px solid #222;">
+            <span style="font-family:'Courier New',monospace;font-size:16px;font-weight:bold;color:#4fffb0;letter-spacing:0.5px;">nnamdi<span style="color:#666;font-weight:normal;">.dev</span></span>
+            <div style="margin-top:14px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666;">// New Contact Message</div>
+            <div style="margin-top:6px;font-size:22px;font-weight:bold;color:#f0f0f0;">You've got a new lead.</div>
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:28px 36px;">
+
+            <!-- Name -->
+            <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:6px;">Name</div>
+            <div style="font-size:16px;color:#f0f0f0;font-weight:bold;margin-bottom:22px;">{{name}}</div>
+
+            <!-- Email -->
+            <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:6px;">Email</div>
+            <div style="font-size:15px;margin-bottom:22px;"><a href="mailto:{{email}}" style="color:#4fffb0;text-decoration:none;">{{email}}</a></div>
+
+            <!-- Message -->
+            <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:6px;">Message</div>
+            <div style="background-color:#1a1a1a;border:1px solid #222;border-radius:6px;padding:18px 20px;font-size:15px;line-height:1.7;color:#cfcfcf;">{{message}}</div>
+
+            <!-- Reply button -->
+            <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:28px;">
+              <tr>
+                <td style="background-color:#4fffb0;border-radius:5px;">
+                  <a href="mailto:{{email}}" style="display:inline-block;padding:13px 28px;font-family:'Courier New',monospace;font-size:13px;font-weight:bold;color:#000000;text-decoration:none;letter-spacing:0.5px;">Reply to {{name}} &rarr;</a>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:20px 36px;border-top:1px solid #222;font-family:'Courier New',monospace;font-size:11px;color:#444;">
+            Sent from the contact form on nnamdi.dev
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- >>> END PASTE <<< -->

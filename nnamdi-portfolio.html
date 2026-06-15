@@ -400,6 +400,46 @@
   }
   .social-link:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* CONTACT FORM */
+  .contact-form {
+    max-width: 560px; margin: 48px auto 8px;
+    text-align: left; position: relative;
+  }
+  .form-row { display: flex; gap: 14px; }
+  .form-group { margin-bottom: 16px; flex: 1; }
+  .form-label {
+    display: block; font-family: var(--mono); font-size: 0.66rem;
+    font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 9px;
+  }
+  .form-input, .form-textarea {
+    width: 100%; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 5px; padding: 13px 16px; color: var(--white);
+    font-family: var(--font); font-size: 0.92rem;
+    transition: border-color 0.2s, background 0.2s; cursor: none;
+  }
+  .form-input:focus, .form-textarea:focus {
+    outline: none; border-color: var(--accent); background: #161616;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--gray2); }
+  .form-textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+  .form-submit {
+    width: 100%; background: var(--accent); color: #000; border: none;
+    padding: 15px; border-radius: 5px; font-family: var(--mono);
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em;
+    cursor: none; transition: opacity 0.2s; margin-top: 4px;
+  }
+  .form-submit:hover { opacity: 0.85; }
+  .form-submit:disabled { opacity: 0.45; }
+  .form-honeypot { display: none !important; }
+  .form-status {
+    font-family: var(--mono); font-size: 0.78rem; line-height: 1.5;
+    text-align: center; margin-top: 18px; min-height: 18px;
+  }
+  .form-status.success { color: var(--accent); }
+  .form-status.error { color: #ff6058; }
+  @media (max-width: 560px) { .form-row { flex-direction: column; gap: 0; } }
+
   @media (max-width: 900px) {
     nav { padding: 18px 20px; }
     .nav-links { display: none; }
@@ -521,7 +561,7 @@
 
     <div class="work-card large">
       <div class="work-visual" style="background:linear-gradient(135deg,#04121a,#0a1f2e)">
-        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/820/noanimate/https://sted-react.vercel.app" alt="STED — AI Study Companion screenshot" loading="lazy" onerror="this.style.display='none'">
+        <img class="work-shot" src="assets/sted.png" alt="STED — AI Study Companion screenshot" loading="lazy" onerror="this.style.display='none'">
         <div class="work-label-bg">STED</div>
         <div class="browser-mock">
           <div class="browser-bar">
@@ -575,7 +615,7 @@
 
     <div class="work-card large">
       <div class="work-visual" style="background:linear-gradient(135deg,#0a0800,#1e1200)">
-        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/740/noanimate/https://itssbman.github.io/Africa-Creators/" alt="Africa Creators screenshot" loading="lazy" onerror="this.style.display='none'">
+        <img class="work-shot" src="assets/africa-creators.png" alt="Africa Creators screenshot" loading="lazy" onerror="this.style.display='none'">
         <div class="work-label-bg">African Creators</div>
         <div class="browser-mock">
           <div class="browser-bar">
@@ -610,7 +650,7 @@
 
     <div class="work-card large">
       <div class="work-visual" style="background:linear-gradient(135deg,#0d0000,#1a0404)">
-        <img class="work-shot" src="https://image.thum.io/get/width/1200/crop/900/noanimate/https://itssbman.github.io/flex-foundry-gym/" alt="Flex Foundry Gym screenshot" loading="lazy" onerror="this.style.display='none'">
+        <img class="work-shot" src="assets/flex-foundry.png" alt="Flex Foundry Gym screenshot" loading="lazy" onerror="this.style.display='none'">
         <div class="work-label-bg">Flex Foundry</div>
         <div class="browser-mock">
           <div class="browser-bar">
@@ -760,8 +800,31 @@
   <div class="section-label">Let's Work Together</div>
   <h2 class="section-title">Ready to build<br>something <em>great?</em></h2>
   <p>Open to freelance, contract, or full-time opportunities. Let's ship something exceptional together.</p>
-  <a href="/cdn-cgi/l/email-protection#fb8c948990d58c928f939989929a95c9cebb9c969a9297d5989496" class="btn-primary" style="font-size:0.88rem;padding:14px 36px;">Get In Touch →</a>
-  <a href="/cdn-cgi/l/email-protection#21564e534a0f56485549435348404f131461464c40484d0f424e4c" class="footer-email"><span class="__cf_email__" data-cfemail="7e09110c155009170a161c0c171f104c4b3e19131f1712501d1113">[email&#160;protected]</span></a>
+
+  <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="9f947d64-28f8-4ec2-9f68-b013b3dfa651">
+    <input type="hidden" name="subject" value="New message from your portfolio site">
+    <input type="hidden" name="from_name" value="nnamdi.dev portfolio">
+    <input type="checkbox" name="botcheck" class="form-honeypot" tabindex="-1" autocomplete="off">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="cf-name">Name</label>
+        <input class="form-input" type="text" id="cf-name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cf-email">Email</label>
+        <input class="form-input" type="email" id="cf-email" name="email" placeholder="you@email.com" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cf-message">Message</label>
+      <textarea class="form-textarea" id="cf-message" name="message" placeholder="Tell me about your project, timeline, and what you're trying to build..." required></textarea>
+    </div>
+    <button type="submit" class="form-submit" id="cf-submit">Send Message →</button>
+    <div class="form-status" id="cf-status" role="status" aria-live="polite"></div>
+  </form>
+
+  <a href="mailto:nnabrianeze@gmail.com" class="footer-email">nnabrianeze@gmail.com</a>
   <div class="social-links">
     <a href="https://github.com/itssbman" target="_blank" class="social-link" title="GitHub">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
@@ -775,7 +838,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mx=0,my=0,rx=0,ry=0;
@@ -797,6 +860,42 @@
       ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='0.4';
     });
   });
+
+  // Contact form — AJAX submit to Web3Forms (keeps user on page)
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    const statusEl = document.getElementById('cf-status');
+    const submitBtn = document.getElementById('cf-submit');
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      statusEl.className = 'form-status';
+      statusEl.textContent = '';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(contactForm)
+        });
+        const json = await res.json();
+        if (json.success) {
+          statusEl.className = 'form-status success';
+          statusEl.textContent = "✓ Message sent — I'll get back to you shortly.";
+          contactForm.reset();
+        } else {
+          statusEl.className = 'form-status error';
+          statusEl.textContent = json.message || 'Something went wrong. Please try again.';
+        }
+      } catch (err) {
+        statusEl.className = 'form-status error';
+        statusEl.textContent = 'Network error — please try again or email me directly.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message →';
+      }
+    });
+  }
 </script>
 </body>
 </html>
