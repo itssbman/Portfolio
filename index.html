@@ -814,10 +814,7 @@
   <h2 class="section-title">Ready to build<br>something <em>great?</em></h2>
   <p>Open to freelance, contract, or full-time opportunities. Let's ship something exceptional together.</p>
 
-  <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-    <input type="hidden" name="access_key" value="9f947d64-28f8-4ec2-9f68-b013b3dfa651">
-    <input type="hidden" name="subject" value="New message from your portfolio site">
-    <input type="hidden" name="from_name" value="nnamdi.dev portfolio">
+  <form id="contactForm" class="contact-form" action="/api/contact" method="POST">
     <input type="checkbox" name="botcheck" class="form-honeypot" tabindex="-1" autocomplete="off">
     <div class="form-row">
       <div class="form-group">
@@ -880,7 +877,7 @@
     });
   });
 
-  // Contact form — AJAX submit to Web3Forms (keeps user on page)
+  // Contact form — AJAX submit to the Resend-backed serverless function.
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     const statusEl = document.getElementById('cf-status');
@@ -892,13 +889,18 @@
       statusEl.className = 'form-status';
       statusEl.textContent = '';
       try {
-        const res = await fetch('https://api.web3forms.com/submit', {
+        const res = await fetch('/api/contact', {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(contactForm)
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('cf-name').value,
+            email: document.getElementById('cf-email').value,
+            message: document.getElementById('cf-message').value,
+            botcheck: contactForm.botcheck.checked
+          })
         });
-        const json = await res.json();
-        if (json.success) {
+        const json = await res.json().catch(() => ({}));
+        if (res.ok && json.success) {
           statusEl.className = 'form-status success';
           statusEl.textContent = "✓ Message sent — I'll get back to you shortly.";
           contactForm.reset();
